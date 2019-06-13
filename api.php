@@ -99,7 +99,7 @@ $operations = [
                         'avatar' => $newfilename
                     ], [
                         'user_id' => $query['id']
-                    ], $resolve, $rejectMYSQLError, $query['avatar']);
+                    ], $resolve, $rejectMYSQLError);
                 } else $rejectMYSQLError(mysqli_error($dbc));
             } else if (isset($query['avatar'])) {
                 executeUpdate($dbc, 'users', [
