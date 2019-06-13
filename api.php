@@ -58,7 +58,7 @@ $operations = [
             $result = mysqli_query($dbc, "SELECT * FROM `" . $value . "`");
             if ($result) $results[$value] = $result; else $rejectMYSQLError(mysqli_error($dbc));
         }
-        $resolve($results, $query);
+        $resolve($results);
     }
 ];
 
