@@ -1,6 +1,6 @@
 <?php
 
-$dbc = mysqli_connect("localhost", "checkchecker", "JJWMdF6riGuHDoVr", "checkchecker") or die("failed to connect to db");
+$dbc = mysqli_connect("localhost", "recipedb", "IDpkDJIDJ9WDsS0F", "recipedb") or die("failed to connect to db");
 mysqli_set_charset($dbc, 'utf8');
 
 function executeInsert($dbc, $table, $args, $resolve, $rejectMYSQLError) {
