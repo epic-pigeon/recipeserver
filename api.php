@@ -49,7 +49,18 @@ function executeUpdate($dbc, $table, $args, $conditions, $resolve, $rejectMYSQLE
     if ($result) $resolve($result, $info); else $rejectMYSQLError(mysqli_error($dbc));
 }
 
-$operations = [];
+$operations = [
+    'getAll' => function ($resolve, $rejectArgumentError, $rejectMYSQLError, $dbc, $query) {
+        $results = [];
+        foreach (
+            ['users', 'user_saves', 'ingredients', 'recipes', 'recipe_ingredients']
+            as $value) {
+            $result = mysqli_query($dbc, "SELECT * FROM `" . $value . "`");
+            if ($result) $results[$value] = $result; else $rejectMYSQLError(mysqli_error($dbc));
+        }
+        $resolve($results, $query);
+    }
+];
 
 $methods = [$_GET, $_POST];
 
