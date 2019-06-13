@@ -59,7 +59,57 @@ $operations = [
             if ($result) $results[$value] = $result; else $rejectMYSQLError(mysqli_error($dbc));
         }
         $resolve($results);
-    }
+    },
+    'createUser' => function ($resolve, $rejectArgumentError, $rejectMYSQLError, $dbc, $query) {
+        if (isset($query['username']) && isset($query['password'])) {
+            $args = [
+                "name" => $query['username'],
+                "password" => $query['password'],
+            ];
+            executeInsert($dbc, "users", $args, function($result){}, $rejectMYSQLError);
+            $resolve(true);
+        } else $rejectArgumentError("username", 'password');
+    },
+    'changeUser' => function ($resolve, $rejectArgumentError, $rejectMYSQLError, $dbc, $query) {
+        if (isset($query['id'])) {
+            if (isset($query['username'])) {
+                executeUpdate($dbc, 'users', [
+                    'name' => $query['username']
+                ], [
+                    'user_id' => $query['id']
+                ], $resolve, $rejectMYSQLError);
+            } else if (isset($query['password'])) {
+                executeUpdate($dbc, 'users', [
+                    'password' => $query['password']
+                ], [
+                    'user_id' => $query['id']
+                ], $resolve, $rejectMYSQLError);
+            } else if (isset($query['avatar']) && isset($query['extension'])) {
+                $newfilename = time() . "." . $query['extension'];
+                $content = base64_decode($query['avatar']);
+                $file = fopen("img/users/" . $newfilename, "wb");
+                fwrite($file, $content);
+                fclose($file);
+                $result = mysqli_query($dbc,
+                    "SELECT avatar FROM users WHERE user_id = " . mysqli_real_escape_string($dbc, $query['id']));
+                if ($result) {
+                    $filename = mysqli_fetch_array($result)['avatar'];
+                    if ($filename != "unknown.png") unlink("img/users" . $filename);
+                    executeUpdate($dbc, 'users', [
+                        'avatar' => $newfilename
+                    ], [
+                        'user_id' => $query['id']
+                    ], $resolve, $rejectMYSQLError, $query['avatar']);
+                } else $rejectMYSQLError(mysqli_error($dbc));
+            } else if (isset($query['avatar'])) {
+                executeUpdate($dbc, 'users', [
+                    'avatar' => $query['avatar']
+                ], [
+                    'user_id' => $query['id']
+                ], $resolve, $rejectMYSQLError);
+            } else $rejectArgumentError('username', 'password', 'avatar');
+        } else $rejectArgumentError('id');
+    },
 ];
 
 $methods = [$_GET, $_POST];
