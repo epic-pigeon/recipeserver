@@ -94,7 +94,7 @@ $operations = [
                     "SELECT avatar FROM users WHERE user_id = " . mysqli_real_escape_string($dbc, $query['id']));
                 if ($result) {
                     $filename = mysqli_fetch_array($result)['avatar'];
-                    if ($filename != "unknown.png") unlink("img/users" . $filename);
+                    if ($filename != "unknown.png") unlink("img/users/" . $filename);
                     executeUpdate($dbc, 'users', [
                         'avatar' => $newfilename
                     ], [
