@@ -110,6 +110,18 @@ $operations = [
             } else $rejectArgumentError('username', 'password', 'avatar');
         } else $rejectArgumentError('id');
     },
+    'createRecipe' => function ($resolve, $rejectArgumentError, $rejectMYSQLError, $dbc, $query) {
+        if (isset($query['name']) && isset($query['cooking'])) {
+            $args = [
+                'name' => $query['name'],
+                'cooking' => $query['cooking'],
+            ];
+            executeInsert($dbc, 'recipes', $args, function() {
+
+            }, $rejectMYSQLError);
+            $resolve(true);
+        } else $rejectArgumentError("name", "cooking");
+    },
 ];
 
 $methods = [$_GET, $_POST];
