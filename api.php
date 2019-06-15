@@ -122,6 +122,22 @@ $operations = [
             $resolve(true);
         } else $rejectArgumentError("name", "cooking");
     },
+    'saveRecipe' => function ($resolve, $rejectArgumentError, $rejectMYSQLError, $dbc, $query) {
+        if (isset($query['userID']) && isset($query['recipeID'])) {
+            executeInsert($dbc, 'user_saves', [
+                'user_id' => $query['userID'],
+                'recipe_id' => $query['recipeID'],
+            ], $resolve, $rejectMYSQLError);
+        } else $rejectArgumentError("userID", "recipeID");
+    },
+    'unsaveRecipe' => function ($resolve, $rejectArgumentError, $rejectMYSQLError, $dbc, $query) {
+        if (isset($query['userID']) && isset($query['recipeID'])) {
+            executeDelete($dbc, 'user_saves', [
+                'user_id' => $query['userID'],
+                'recipe_id' => $query['recipeID'],
+            ], $resolve, $rejectMYSQLError);
+        } else $rejectArgumentError("userID", "recipeID");
+    },
 ];
 
 $methods = [$_GET, $_POST];
