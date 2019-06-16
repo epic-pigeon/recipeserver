@@ -138,6 +138,21 @@ $operations = [
             ], $resolve, $rejectMYSQLError);
         } else $rejectArgumentError("userID", "recipeID");
     },
+    'addIngredient' => function ($resolve, $rejectArgumentError, $rejectMYSQLError, $dbc, $query) {
+        if (isset($query['ingredientID']) && isset($query['recipeID']) && isset($query['amount'])) {
+            executeInsert(
+                $dbc,
+                'recipe_ingredients',
+                [
+                    'ingredient_id' => $query['ingredientID'],
+                    'recipe_id' => $query['recipeID'],
+                    'amount' => $query['amount'],
+                ],
+                $resolve,
+                $rejectMYSQLError
+            );
+        } else $rejectArgumentError("recipeID", "ingredientID", "amount");
+    }
 ];
 
 $methods = [$_GET, $_POST];
