@@ -116,10 +116,7 @@ $operations = [
                 'name' => $query['name'],
                 'cooking' => $query['cooking'],
             ];
-            executeInsert($dbc, 'recipes', $args, function() {
-
-            }, $rejectMYSQLError);
-            $resolve(true);
+            executeInsert($dbc, 'recipes', $args, $resolve, $rejectMYSQLError);
         } else $rejectArgumentError("name", "cooking");
     },
     'saveRecipe' => function ($resolve, $rejectArgumentError, $rejectMYSQLError, $dbc, $query) {
