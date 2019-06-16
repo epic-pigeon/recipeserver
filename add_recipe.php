@@ -45,7 +45,8 @@
                 button.onclick = function() {
                     document.querySelector("ul").removeChild(element);
                 };
-                element.appendChild(button)
+                element.appendChild(button);
+                document.querySelector("ul").appendChild(element);
             };
             document.getElementById("add_recipe").onclick = function () {
                 let name = document.getElementById("name").value;
