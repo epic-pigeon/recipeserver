@@ -15,8 +15,8 @@
             $dbc = mysqli_connect("localhost", "recipedb", "IDpkDJIDJ9WDsS0F", "recipedb") or die("failed to connect to db");
             mysqli_set_charset($dbc, 'utf8');
             $result = mysqli_query($dbc, 'SELECT * FROM ingredients');
-            while ($row = mysqli_fetch_row($result)) {
-                echo $row;
+            while ($row = mysqli_fetch_assoc($result)) {
+                var_dump($row);
                 echo '<option id="' . $row['ingredient_id'] . '">' . $row['name'] . ' (' . $row['units'] . ')</option>';
             }
             ?>
