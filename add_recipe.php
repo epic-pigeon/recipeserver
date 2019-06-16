@@ -16,6 +16,7 @@
             mysqli_set_charset($dbc, 'utf8');
             $result = mysqli_query($dbc, 'SELECT * FROM ingredients');
             while ($row = mysqli_fetch_row($result)) {
+                echo $row;
                 echo '<option id="' . $row['ingredient_id'] . '">' . $row['name'] . ' (' . $row['units'] . ')</option>';
             }
             ?>
