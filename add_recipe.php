@@ -48,6 +48,7 @@
                 button.onclick = function() {
                     document.querySelector("ul").removeChild(element);
                 };
+                button.innerText = "remove";
                 element.appendChild(button);
                 document.querySelector("ul").appendChild(element);
             };
