@@ -5,11 +5,13 @@
     <script>
         function query(data, callback) {
             let url = "api.php?";
+            let arr = [];
             for (let prop in data) {
                 if (data.hasOwnProperty(prop)) {
-                    url += encodeURI(prop) + "=" + encodeURI(data[prop]);
+                    arr.push(encodeURI(prop) + "=" + encodeURI(data[prop]));
                 }
             }
+            url += arr.join("&");
             let xhr = new XMLHttpRequest();
             xhr.open("GET", url);
             xhr.onreadystatechange = function () {
