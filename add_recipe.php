@@ -56,6 +56,7 @@
                     name,
                     cooking,
                     function (data) {
+                        console.log(data);
                         try {
                             let obj = JSON.parse(data);
                             let recipeID = parseInt(obj.last_id);
