@@ -17,6 +17,7 @@
                     if (typeof callback === "function") callback(xhr.responseText);
                 }
             };
+            xhr.onerror = e => console.log(e);
             xhr.send();
         }
         function createRecipe(name, cooking, callback) {
