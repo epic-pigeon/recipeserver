@@ -62,7 +62,7 @@
                         console.log(data);
                         try {
                             let obj = JSON.parse(data);
-                            let recipeID = parseInt(obj.last_id);
+                            let recipeID = parseInt(obj["last_id"]);
                             for (let li of document.querySelector("ul").childNodes) {
                                 addIngredientToRecipe(li.ingredientID, recipeID, li.amount);
                             }

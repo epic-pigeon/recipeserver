@@ -52,9 +52,9 @@ function executeUpdate($dbc, $table, $args, $conditions, $resolve, $rejectMYSQLE
 $operations = [
     'getAll' => function ($resolve, $rejectArgumentError, $rejectMYSQLError, $dbc, $query) {
         $results = [];
-        foreach (
-            ['users', 'user_saves', 'ingredients', 'recipes', 'recipe_ingredients']
-            as $value) {
+        $result = mysqli_query($dbc, "SHOW TABLES FROM `recipedb`");
+        while($table = mysqli_fetch_array($result)) {
+            $value = $table[0];
             $result = mysqli_query($dbc, "SELECT * FROM `" . $value . "`");
             if ($result) $results[$value] = $result; else $rejectMYSQLError(mysqli_error($dbc));
         }
