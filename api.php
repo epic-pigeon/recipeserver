@@ -54,7 +54,7 @@ $operations = [
         $results = [];
         $result = mysqli_query($dbc, "SHOW TABLES FROM `recipedb`");
         while($table = mysqli_fetch_array($result)) {
-            echo $table;
+            var_dump($table);
             $value = $table[0];
             $result = mysqli_query($dbc, "SELECT * FROM `" . $value . "`");
             if ($result) $results[$value] = $result; else $rejectMYSQLError(mysqli_error($dbc));
