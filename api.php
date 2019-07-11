@@ -52,10 +52,7 @@ function executeUpdate($dbc, $table, $args, $conditions, $resolve, $rejectMYSQLE
 $operations = [
     'getAll' => function ($resolve, $rejectArgumentError, $rejectMYSQLError, $dbc, $query) {
         $results = [];
-        $result = mysqli_query($dbc, "SHOW TABLES FROM `recipedb`");
-        while($table = mysqli_fetch_array($result)) {
-            var_dump($table);
-            $value = $table[0];
+        foreach (['ingredients', 'recipes', 'recipe_ingredients', 'units', 'users', 'user_saves'] as $value) {
             $result = mysqli_query($dbc, "SELECT * FROM `" . $value . "`");
             if ($result) $results[$value] = $result; else $rejectMYSQLError(mysqli_error($dbc));
         }
@@ -189,12 +186,15 @@ foreach ($methods as $query) if (isset($query['operation'])) {
                     $output['last_id'] = $lastID;
                 }
                 echo json_encode($output);
+                exit;
             },
             function (...$errors) {
                 echo '{"success":"false", "error":"Bad arguments: ' . implode(", ", $errors) . '"}';
+                exit;
             },
             function ($err) {
                 echo '{"success":"false", "error":"MYSQL error: ' . $err . '"}';
+                exit;
             },
             $dbc,
             $query
